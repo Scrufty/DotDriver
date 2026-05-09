@@ -1,0 +1,9 @@
+(fp_lib_table
+	(version 7)
+	(lib (name "lib") (type "KiCad") (uri "${KIPRJMOD}/lib") (options "") (descr ""))
+	(lib (name "philippe_V2") (type "KiCad") (uri "${KIPRJMOD}/graphics/philippe_V2") (options "") (descr ""))
+	(lib (name "philippe20") (type "KiCad") (uri "${KIPRJMOD}/graphics/philippe20") (options "") (descr ""))
+	(lib (name "philippe60") (type "KiCad") (uri "${KIPRJMOD}/graphics/philippe60") (options "") (descr ""))
+	(lib (name "philippe18") (type "KiCad") (uri "${KIPRJMOD}/graphics/philippe18") (options "") (descr ""))
+	(lib (name "philippe15") (type "KiCad") (uri "${KIPRJMOD}/graphics/philippe15") (options "") (descr ""))
+)
