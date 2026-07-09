@@ -1,56 +1,106 @@
-#include <esp_log.h>
-#include <driver/gpio.h>
-#include <freertos/FreeRTOS.h>
-#include <sdkconfig.h>
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+#include "esp_log.h"
+#include "esp_rom_sys.h"
+#include "driver/gpio.h"
+#include "panel.h"
+#include "frames.h"
 
-#define COL CONFIG_COL_LED
-#define ROW CONFIG_ROW_LED
-#define PULSE CONFIG_PULSE_LED
+static const char *TAG = "MAIN";
 
-static const char *TAG = "example";
+static void flicker_animation() // Hardcoded animation: clear all dots on 2 displays, then set them all
+{
+    // CLEAR DOTS
+    selectPanel1();
+    esp_rom_delay_us(10);
+    clearPanel();
+    resetPanel();   // reset counters
 
-static uint8_t phase = 0;
+    selectPanel2();
+    esp_rom_delay_us(10);
+    clearPanel();
+    resetPanel();   // reset counters
 
-static void drive_leds(int phaseNB) {
-    if(phaseNB == 0){
-        gpio_set_level(COL, 1);
-        gpio_set_level(ROW, 0);
-        gpio_set_level(PULSE, 0);
-    } else if (phaseNB == 1)
-    {
-        gpio_set_level(COL, 0);
-        gpio_set_level(ROW, 1);
-        gpio_set_level(PULSE, 0);
-    } else
-    {
-        gpio_set_level(COL, 0);
-        gpio_set_level(ROW, 0);
-        gpio_set_level(PULSE, 1);
+    // SET DOTS
+    selectPanel1();
+    esp_rom_delay_us(10);
+    setPanel();
+    resetPanel();
+
+    selectPanel2();
+    esp_rom_delay_us(10);
+    setPanel();
+    resetPanel();
+}
+
+
+
+
+/* ------------------------------------------------------------------ */
+/* app_main                                                             */
+/* ------------------------------------------------------------------ */
+void app_main(void)
+{
+    esp_rom_delay_us(1000000);
+    initialiseOutputs();
+    ESP_LOGI(TAG, "testing frame compare");
+    //test_compareFrames(&curState);
+    PanelState currentState = initialise_display_map();
+    
+    // CLEAR DOTS
+    selectPanel1();
+    esp_rom_delay_us(10);
+    clearPanel();
+    resetPanel();   // reset counters
+
+    selectPanel2();
+    esp_rom_delay_us(10);
+    clearPanel();
+    resetPanel();   // reset counters
+    esp_rom_delay_us(1000000);
+
+    while (1) {
+        // flicker_animation();
+
+        test_renderFrames(&currentState, 1);
+        currentState = initialise_display_map();
+        currentState.dots[9]  |= (1ULL << 13);    //(x=13,y=9)
+        currentState.dots[9]  |= (1ULL << 14);    //(x=14,y=9)
+        currentState.dots[10] |= (1ULL << 13);    //(x=13,y=10)
+        esp_rom_delay_us(1000000);
+
+        test_renderFrames(&currentState, 2);
+        currentState = initialise_display_map();
+        currentState.dots[9]  |= (1ULL << 14);    //(x=14,y=9)
+        currentState.dots[9]  |= (1ULL << 15);    //(x=15,y=9)
+        currentState.dots[10] |= (1ULL << 15);    //(x=15,y=10)
+        esp_rom_delay_us(1000000);
+
+        test_renderFrames(&currentState, 3);
+        currentState = initialise_display_map();
+        currentState.dots[10] |= (1ULL << 15);    //(x=15,y=10)
+        currentState.dots[11] |= (1ULL << 14);    //(x=14,y=11)
+        currentState.dots[11] |= (1ULL << 15);    //(x=15,y=11)
+        esp_rom_delay_us(1000000);
+
+        test_renderFrames(&currentState, 4);
+        currentState = initialise_display_map();
+        currentState.dots[10] |= (1ULL << 13);    //(x=13,y=10)
+        currentState.dots[11] |= (1ULL << 13);    //(x=13,y=10)
+        currentState.dots[11] |= (1ULL << 14);    //(x=14,y=10)
+        esp_rom_delay_us(1000000);
+
     }
 }
 
-static void initialise_leds(void){
-    ESP_LOGI(TAG, "Initialising LED pins");
-    gpio_reset_pin(COL);
-    gpio_reset_pin(ROW);
-    gpio_reset_pin(PULSE);
-    // set to push/pull output
-    gpio_set_direction(COL, GPIO_MODE_OUTPUT);
-    gpio_set_direction(ROW, GPIO_MODE_OUTPUT);
-    gpio_set_direction(PULSE, GPIO_MODE_OUTPUT);
-}
 
 
-void app_main() {
-    initialise_leds();
 
-    while(1) {
-        while(phase < 3) {
-            ESP_LOGI(TAG, "Current Phase: %d", phase);
-            drive_leds(phase);
-            vTaskDelay(CONFIG_BLINK_PERIOD / portTICK_PERIOD_MS);
-            phase ++;
-        }
-        phase = 0;  //reset counter
-    }
-}
+
+
+
+
+
+
+
+
