@@ -116,27 +116,27 @@ void test_renderFrames(const PanelState *curState, int phase)
     //FRAMES
     //frame 1:
     PanelState frame1 = initialise_display_map();
-    frame1.dots[9]  |= (1ULL << 13);    //(x=13,y=9)
-    frame1.dots[9]  |= (1ULL << 14);    //(x=14,y=9)
-    frame1.dots[10] |= (1ULL << 13);    //(x=13,y=10)
+    frame1.dots[9]  |= (1ULL << (13+18));    //(x=13,y=9)
+    frame1.dots[9]  |= (1ULL << (14+18));    //(x=14,y=9)
+    frame1.dots[10] |= (1ULL << (13+18));    //(x=13,y=10)
 
     //frame 2:
     PanelState frame2 = initialise_display_map();
-    frame2.dots[9]  |= (1ULL << 14);    //(x=14,y=9)
-    frame2.dots[9]  |= (1ULL << 15);    //(x=15,y=9)
-    frame2.dots[10] |= (1ULL << 15);    //(x=15,y=10)
+    frame2.dots[9]  |= (1ULL << (14+18));    //(x=14,y=9)
+    frame2.dots[9]  |= (1ULL << (15+18));    //(x=15,y=9)
+    frame2.dots[10] |= (1ULL << (15+18));    //(x=15,y=10)
 
     //frame 3:
     PanelState frame3 = initialise_display_map();
-    frame3.dots[10] |= (1ULL << 15);    //(x=15,y=10)
-    frame3.dots[11] |= (1ULL << 14);    //(x=14,y=11)
-    frame3.dots[11] |= (1ULL << 15);    //(x=15,y=11)
+    frame3.dots[10] |= (1ULL << (15+18));    //(x=15,y=10)
+    frame3.dots[11] |= (1ULL << (14+18));    //(x=14,y=11)
+    frame3.dots[11] |= (1ULL << (15+18));    //(x=15,y=11)
 
     //frame 4:
     PanelState frame4 = initialise_display_map();
-    frame4.dots[10] |= (1ULL << 13);    //(x=13,y=10)
-    frame4.dots[11] |= (1ULL << 13);    //(x=13,y=10)
-    frame4.dots[11] |= (1ULL << 14);    //(x=14,y=10)
+    frame4.dots[10] |= (1ULL << (13+18));    //(x=13,y=10)
+    frame4.dots[11] |= (1ULL << (13+18));    //(x=13,y=10)
+    frame4.dots[11] |= (1ULL << (14+18));    //(x=14,y=10)
 
     PanelState nextState = {0};
 

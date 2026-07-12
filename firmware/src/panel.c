@@ -81,9 +81,6 @@ void resetPanel() {
     gpio_set_level(PANEL_RESET, 1);
     esp_rom_delay_us(1000); // 1ms
     gpio_set_level(PANEL_RESET, 0);
-    for(int i=0; i<31; i++){    // not sure why panel needs this but initialises to 1 rather than 0 otherwise
-        advanceCol();
-    }
 }
 
 void goToDot(uint8_t x, uint8_t y) {    // NEED TO ADD AUTOMATED PANEL SELECT
