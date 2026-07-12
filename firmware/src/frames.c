@@ -154,3 +154,32 @@ void test_renderFrames(const PanelState *curState, int phase)
 
     render_panel(&toBeFlipped);
 }
+
+// TEST CODE FROM MAIN
+/*         test_renderFrames(&currentState, 1);
+        currentState = initialise_display_map();
+        currentState.dots[9]  |= (1ULL << (13+18));    //(x=13,y=9)
+        currentState.dots[9]  |= (1ULL << (14+18));    //(x=14,y=9)
+        currentState.dots[10] |= (1ULL << (13+18));    //(x=13,y=10)
+        esp_rom_delay_us(80000);
+
+        test_renderFrames(&currentState, 2);
+        currentState = initialise_display_map();
+        currentState.dots[9]  |= (1ULL << (14+18));    //(x=14,y=9)
+        currentState.dots[9]  |= (1ULL << (15+18));    //(x=15,y=9)
+        currentState.dots[10] |= (1ULL << (15+18));    //(x=15,y=10)
+        esp_rom_delay_us(80000);
+
+        test_renderFrames(&currentState, 3);
+        currentState = initialise_display_map();
+        currentState.dots[10] |= (1ULL << (15+18));    //(x=15,y=10)
+        currentState.dots[11] |= (1ULL << (14+18));    //(x=14,y=11)
+        currentState.dots[11] |= (1ULL << (15+18));    //(x=15,y=11)
+        esp_rom_delay_us(80000);
+
+        test_renderFrames(&currentState, 4);
+        currentState = initialise_display_map();
+        currentState.dots[10] |= (1ULL << (13+18));    //(x=13,y=10)
+        currentState.dots[11] |= (1ULL << (13+18));    //(x=13,y=10)
+        currentState.dots[11] |= (1ULL << (14+18));    //(x=14,y=10)
+        esp_rom_delay_us(80000); */

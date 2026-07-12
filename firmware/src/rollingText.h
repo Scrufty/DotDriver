@@ -15,6 +15,7 @@ typedef struct {
 
 MessageBuffer computeBuffer(const char *text);  // generates frame of entire message (likely larger than panel)
 PanelState extractWindow(const MessageBuffer *msg, int offset); // copies scrolling section of the message frame sized to panel
+void rolling_text_task(void *pvParameters);
 
 
 #endif

@@ -30,5 +30,6 @@ void clear_row(void);
 void set_row(void);
 void clearPanel(void);
 void setPanel(void);
+void clearDisplay(void);
 
 #endif

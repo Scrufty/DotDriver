@@ -2,7 +2,13 @@
 #include "hugeFont.h"
 #include "frames.h"
 #include "panel.h"
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
 #include<string.h>
+
+static MessageBuffer buffer;
+static PanelState currentState;
+static flipList list;
 
 MessageBuffer computeBuffer(const char *txt)
 {
@@ -39,4 +45,32 @@ PanelState extractWindow(const MessageBuffer *msg, int offset)
         }
     }
     return frame;
+}
+
+void rolling_text_task(void *pvParameters)
+{
+    // Setup
+    char textToRoll[] = "LET_IT_BE_KNOWN_THAT_CHRIST_IS_KING";
+    MessageBuffer buffer = computeBuffer(textToRoll);
+    currentState = initialise_display_map();
+
+    const TickType_t period = pdMS_TO_TICKS(250);
+    TickType_t lastWakeTime = xTaskGetTickCount();
+
+    int offset = -2*PANEL_COLS;  // initial offset
+
+    while(1){
+        PanelState nextState = extractWindow(&buffer, offset);   // compute frame
+        flipList list = compareFrames(&currentState, &nextState);
+        render_panel(&list);
+        currentState = nextState;   // refresh state
+
+        offset+=2;
+
+        if(offset >= buffer.messageWidth+2*PANEL_COLS){
+            offset = -2*PANEL_COLS; // reset offset when scroll complete
+        }
+
+        vTaskDelayUntil(&lastWakeTime, period);
+    }
 }

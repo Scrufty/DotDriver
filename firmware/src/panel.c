@@ -23,6 +23,8 @@
 
 static const char *TAG = "panel";
 
+// critical section to prevent interrupts/preempts during power pulse
+portMUX_TYPE dotMux = portMUX_INITIALIZER_UNLOCKED;
 
 void initialiseOutputs() {
     ESP_LOGI(TAG, "Initialising Outputs");
@@ -59,20 +61,24 @@ PanelState initialise_display_map() {
 }
 
 void advanceCol() {
+    portENTER_CRITICAL(&dotMux);
     gpio_set_level(COL_ADV, 1);
     gpio_set_level(COL_LED, 1);
     esp_rom_delay_us(10);   // 0.1ms
     gpio_set_level(COL_ADV, 0);
     gpio_set_level(COL_LED, 0);
+    portEXIT_CRITICAL(&dotMux);
     esp_rom_delay_us(10);
 }
 
 void advanceRow() {
+    portENTER_CRITICAL(&dotMux);
     gpio_set_level(ROW_ADV, 1);
     gpio_set_level(ROW_LED, 1);
     esp_rom_delay_us(10);   // 0.1ms
     gpio_set_level(ROW_ADV, 0);
     gpio_set_level(ROW_LED, 0);
+    portEXIT_CRITICAL(&dotMux);
     esp_rom_delay_us(10);
 }
 
@@ -129,11 +135,13 @@ void prepDotState(bool state) {
 }
 
 void powerPulse() {
+    portENTER_CRITICAL(&dotMux);
     gpio_set_level(PULSE_SIG, 1); // send pulse
     gpio_set_level(PULSE_LED, 1);
     esp_rom_delay_us(PULSE_US);
     gpio_set_level(PULSE_SIG, 0);
     gpio_set_level(PULSE_LED, 0);
+    portEXIT_CRITICAL(&dotMux);
     esp_rom_delay_us(10);
 }
 
@@ -223,4 +231,18 @@ void setPanel()
         set_row();
     }
     esp_rom_delay_us(10);
+}
+
+void clearDisplay() // clear both panels
+{
+    selectPanel1();
+    esp_rom_delay_us(10);
+    clearPanel();
+    resetPanel();   // reset counters
+
+    selectPanel2();
+    esp_rom_delay_us(10);
+    clearPanel();
+    resetPanel();   // reset counters
+    esp_rom_delay_us(1000000);
 }
