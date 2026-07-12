@@ -7,4 +7,5 @@
 	(lib (name "FSM8JH") (type "KiCad") (uri "${KIPRJMOD}/lib/FSM8JH.kicad_sym") (options "") (descr ""))
 	(lib (name "IRF4905S") (type "KiCad") (uri "${KIPRJMOD}/lib/IRF4905S.kicad_sym") (options "") (descr ""))
 	(lib (name "Philippe") (type "KiCad") (uri "${DOTDRIVER_LIB}/Philippe.kicad_sym") (options "") (descr ""))
+	(lib (name "FR207") (type "KiCad") (uri "${KIPRJMOD}/lib/FR207.kicad_sym") (options "") (descr ""))
 )
