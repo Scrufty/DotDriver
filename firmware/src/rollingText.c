@@ -6,10 +6,10 @@
 #include "freertos/task.h"
 #include<string.h>
 
-static MessageBuffer buffer;
 static PanelState currentState;
-static flipList list;
 
+
+// Classic width
 MessageBuffer computeBuffer(const char *txt)
 {
     MessageBuffer buffer = {0}; // emmpty buffer
@@ -17,6 +17,25 @@ MessageBuffer computeBuffer(const char *txt)
     int txtLength = strlen(txt);
     for(int i=0; i<txtLength; i++){  // for each letter of input string
         Glyph glyph = font[(unsigned char)txt[i]];
+        for(int x=0; x<glyph.width; x++){ // for each column of the letter glyph
+            buffer.cols[colCursor] = glyph.cols[x];
+            colCursor++;
+        }
+        colCursor += LETTER_GAP;
+    }
+    buffer.messageWidth = colCursor;
+    return buffer;
+}
+
+
+// Bold width
+MessageBuffer computeBoldBuffer(const char *txt)
+{
+    MessageBuffer buffer = {0}; // emmpty buffer
+    int colCursor = 0;  // current position within buffer cols
+    int txtLength = strlen(txt);
+    for(int i=0; i<txtLength; i++){  // for each letter of input string
+        Glyph glyph = BoldFont[(unsigned char)txt[i]];
         for(int x=0; x<glyph.width; x++){ // for each column of the letter glyph
             buffer.cols[colCursor] = glyph.cols[x];
             colCursor++;
@@ -66,6 +85,34 @@ void rolling_text_task(void *pvParameters)
         currentState = nextState;   // refresh state
 
         offset+=2;
+
+        if(offset >= buffer.messageWidth+2*PANEL_COLS){
+            offset = -2*PANEL_COLS; // reset offset when scroll complete
+        }
+
+        vTaskDelayUntil(&lastWakeTime, period);
+    }
+}
+
+void rolling_bold_text_task(void *pvParameters)
+{
+    // Setup
+    char textToRoll[] = "SET_YOUR_MINDS_ON_THINGS_ABOVE";
+    MessageBuffer buffer = computeBoldBuffer(textToRoll);
+    currentState = initialise_display_map();
+
+    const TickType_t period = pdMS_TO_TICKS(100);
+    TickType_t lastWakeTime = xTaskGetTickCount();
+
+    int offset = -2*PANEL_COLS;  // initial offset
+
+    while(1){
+        PanelState nextState = extractWindow(&buffer, offset);   // compute frame
+        flipList list = compareFrames(&currentState, &nextState);
+        render_panel(&list);
+        currentState = nextState;   // refresh state
+
+        offset++;
 
         if(offset >= buffer.messageWidth+2*PANEL_COLS){
             offset = -2*PANEL_COLS; // reset offset when scroll complete

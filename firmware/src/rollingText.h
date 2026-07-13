@@ -14,8 +14,10 @@ typedef struct {
 } MessageBuffer;
 
 MessageBuffer computeBuffer(const char *text);  // generates frame of entire message (likely larger than panel)
+MessageBuffer computeBoldBuffer(const char *text);  // same with bold text font
 PanelState extractWindow(const MessageBuffer *msg, int offset); // copies scrolling section of the message frame sized to panel
 void rolling_text_task(void *pvParameters);
+void rolling_bold_text_task(void *pvParameters);
 
 
 #endif

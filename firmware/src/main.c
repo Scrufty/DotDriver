@@ -53,7 +53,7 @@ void app_main(void)
     ESP_LOGI(TAG, "entering loop");
 
     xTaskCreate(
-        rolling_text_task,  // task function
+        rolling_bold_text_task,  // task function rolling_text_task
         "rolling text",     // task name
         16384,               // task-specific stack size in bytes
         NULL,               // any parameters to be passed

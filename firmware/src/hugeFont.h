@@ -12,4 +12,6 @@ typedef struct {
 
 extern const Glyph font[];  // no set size
 
+extern const Glyph BoldFont[];  // no set size
+
 #endif
