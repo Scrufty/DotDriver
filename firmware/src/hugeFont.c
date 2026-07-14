@@ -800,3 +800,95 @@ const Glyph BoldFont[] = {
     ['!'] = { .width = 2, .cols = BOLDglyph_EXP_cols},
     ['&'] = { .width = 11, .cols = BOLDglyph_AND_cols}
 };
+
+// 5x3 Font
+
+// 1
+static const uint8_t fiveXthreeglyph_1_cols[] = {
+    0b00010001,
+    0b00011111,
+    0b00010000
+};
+
+// 2
+static const uint8_t fiveXthreeglyph_2_cols[] = {
+    0b00011101,
+    0b00010101,
+    0b00010111
+};
+
+// 3
+static const uint8_t fiveXthreeglyph_3_cols[] = {
+    0b00010101,
+    0b00010101,
+    0b00011111
+};
+
+// 4
+static const uint8_t fiveXthreeglyph_4_cols[] = {
+    0b00000111,
+    0b00000100,
+    0b00011111
+};
+
+// 5
+static const uint8_t fiveXthreeglyph_5_cols[] = {
+    0b00010111,
+    0b00010101,
+    0b00011101
+};
+
+// 6
+static const uint8_t fiveXthreeglyph_6_cols[] = {
+    0b00011111,
+    0b00010101,
+    0b00011101
+};
+
+// 7
+static const uint8_t fiveXthreeglyph_7_cols[] = {
+    0b00000001,
+    0b00000001,
+    0b00011111
+};
+
+// 8
+static const uint8_t fiveXthreeglyph_8_cols[] = {
+    0b00011111,
+    0b00010101,
+    0b00011111
+};
+
+// 9
+static const uint8_t fiveXthreeglyph_9_cols[] = {
+    0b00010111,
+    0b00010101,
+    0b00011111
+};
+
+// 0
+static const uint8_t fiveXthreeglyph_0_cols[] = {
+    0b00011111,
+    0b00010001,
+    0b00011111
+};
+
+// :
+static const uint8_t fiveXthreeglyph_colon_cols[] = {
+    0b00001010
+};
+
+// 5x3 Font lookup table
+const MiniGlyph fiveXthreeFont[] = {
+    ['1'] = { .width = 3, .cols = fiveXthreeglyph_1_cols},
+    ['2'] = { .width = 3, .cols = fiveXthreeglyph_2_cols},
+    ['3'] = { .width = 3, .cols = fiveXthreeglyph_3_cols},
+    ['4'] = { .width = 3, .cols = fiveXthreeglyph_4_cols},
+    ['5'] = { .width = 3, .cols = fiveXthreeglyph_5_cols},
+    ['6'] = { .width = 3, .cols = fiveXthreeglyph_6_cols},
+    ['7'] = { .width = 3, .cols = fiveXthreeglyph_7_cols},
+    ['8'] = { .width = 3, .cols = fiveXthreeglyph_8_cols},
+    ['9'] = { .width = 3, .cols = fiveXthreeglyph_9_cols},
+    ['0'] = { .width = 3, .cols = fiveXthreeglyph_0_cols},
+    [':'] = { .width = 1, .cols = fiveXthreeglyph_colon_cols},
+};

@@ -12,6 +12,9 @@
 #include <nvs_flash.h>
 #include<freertos/event_groups.h>
 #include <time.h>
+#include "displayTime.h"
+#include "global_event_group.h"
+
 
 EventGroupHandle_t global_event_group;
 
@@ -71,9 +74,7 @@ void app_main(void)
     // CLEAR DOTS
     clearDisplay();
 
-    time_t now;
-    struct tm timeinfo;
-    char strftime_buf[64];
+
 
     
     
@@ -105,15 +106,28 @@ void app_main(void)
         NULL
     );
 
+    PanelState cur_state = {0};
+    PanelState next_state = {0};
+
+    xEventGroupWaitBits(
+        global_event_group,       // event group to watch
+        IS_TIME_SET_BIT,          // which bit to wait for
+        pdFALSE,                  // don't clear the bit once we see it — leave it set for anyone else checking
+        pdTRUE,                   // wait for ALL specified bits (for when waiting for multiple bits)
+        portMAX_DELAY             // block indefinitely until the bit is set
+    );
+    ESP_LOGI(TAG, "Time synced, starting clock display");
     while(1)
     {
-        time(&now);                                    // get current timestamp
-        localtime_r(&now, &timeinfo);                  // convert to broken-down local time (uses your TZ setting)
-        strftime(strftime_buf, sizeof(strftime_buf), "%c", &timeinfo);   // format as a string
+        TimeBuffer timeBuffer = computeTimeBuffer();
+        addTimeToFrame(&next_state, &timeBuffer);
+        flipList list = compareFrames(&cur_state, &next_state);
 
-        ESP_LOGI(TAG, "current time: %s", strftime_buf);
+        render_panel(&list);
+        cur_state = next_state;
+        next_state = initialise_display_map();
 
-        vTaskDelay(5000);
+        vTaskDelay(100);
     }
 }
 

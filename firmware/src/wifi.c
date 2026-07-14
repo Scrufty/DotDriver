@@ -50,7 +50,8 @@ void wifi_task(void *pvParameter)
 {
     esp_netif_init();   // initialise TCP/IP network stack
     esp_event_loop_create_default();    // starts loop that delivers callback to handler
-    esp_netif_create_default_wifi_sta();    // creates network interfact for wifi station mode (gets IP, runs DHCP, ...)
+    esp_netif_t *sta_netif = esp_netif_create_default_wifi_sta();    // creates network interfact for wifi station mode (gets IP, runs DHCP, ...)
+    esp_netif_set_hostname(sta_netif, "Phillipe D'ote");
     wifi_init_config_t wifi_initiation = WIFI_INIT_CONFIG_DEFAULT();    // allocates + initialises ressources for wifi (buffers, task, ...)
     esp_wifi_init(&wifi_initiation);
     wifi_config_t wifi_configuration = {   // set preferences (selected security: WPA2_PSK)
