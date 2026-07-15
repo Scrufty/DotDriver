@@ -120,7 +120,9 @@ void app_main(void)
     while(1)
     {
         TimeBuffer timeBuffer = computeTimeBuffer();
+        TimeBuffer dateBuffer = computeDateBuffer();
         addTimeToFrame(&next_state, &timeBuffer);
+        addDateToFrame(&next_state, &dateBuffer);
         flipList list = compareFrames(&cur_state, &next_state);
 
         render_panel(&list);

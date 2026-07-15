@@ -8,8 +8,8 @@
 #include "wifi.h"
 #include "global_event_group.h"
 
-#define SSID            "ELISHA"
-#define PASSWORD        "87654321"
+#define SSID            "TP-Link_625A"
+#define PASSWORD        "48712064"
 
 static const char *TAG = "Wi-Fi";
 

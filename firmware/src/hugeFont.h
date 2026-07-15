@@ -21,4 +21,6 @@ extern const Glyph BoldFont[];  // no set size
 
 extern const MiniGlyph fiveXthreeFont[];  // 5x3
 
+extern const MiniGlyph fourXthreeFont[];  // 4x3
+
 #endif

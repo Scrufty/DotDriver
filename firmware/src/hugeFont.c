@@ -892,3 +892,95 @@ const MiniGlyph fiveXthreeFont[] = {
     ['0'] = { .width = 3, .cols = fiveXthreeglyph_0_cols},
     [':'] = { .width = 1, .cols = fiveXthreeglyph_colon_cols},
 };
+
+// 4x3 Font
+
+// 1
+static const uint8_t fourXthreeglyph_1_cols[] = {
+    0b00001001,
+    0b00001111,
+    0b00001000
+};
+
+// 2
+static const uint8_t fourXthreeglyph_2_cols[] = {
+    0b00001101,
+    0b00001011,
+    0b00001011
+};
+
+// 3
+static const uint8_t fourXthreeglyph_3_cols[] = {
+    0b00001001,
+    0b00001011,
+    0b00001111
+};
+
+// 4
+static const uint8_t fourXthreeglyph_4_cols[] = {
+    0b00000111,
+    0b00000100,
+    0b00001111
+};
+
+// 5
+static const uint8_t fourXthreeglyph_5_cols[] = {
+    0b00001011,
+    0b00001101,
+    0b00001101
+};
+
+// 6
+static const uint8_t fourXthreeglyph_6_cols[] = {
+    0b00001111,
+    0b00001010,
+    0b00001110
+};
+
+// 7
+static const uint8_t fourXthreeglyph_7_cols[] = {
+    0b00000001,
+    0b00000001,
+    0b00001111
+};
+
+// 8
+static const uint8_t fourXthreeglyph_8_cols[] = {
+    0b00001100,
+    0b00001111,
+    0b00000011
+};
+
+// 9
+static const uint8_t fourXthreeglyph_9_cols[] = {
+    0b00000111,
+    0b00000101,
+    0b00001111
+};
+
+// 0
+static const uint8_t fourXthreeglyph_0_cols[] = {
+    0b00001111,
+    0b00001001,
+    0b00001111
+};
+
+// :
+static const uint8_t fourXthreeglyph_colon_cols[] = {
+    0b00000000
+};
+
+// 5x3 Font lookup table
+const MiniGlyph fourXthreeFont[] = {
+    ['1'] = { .width = 3, .cols = fourXthreeglyph_1_cols},
+    ['2'] = { .width = 3, .cols = fourXthreeglyph_2_cols},
+    ['3'] = { .width = 3, .cols = fourXthreeglyph_3_cols},
+    ['4'] = { .width = 3, .cols = fourXthreeglyph_4_cols},
+    ['5'] = { .width = 3, .cols = fourXthreeglyph_5_cols},
+    ['6'] = { .width = 3, .cols = fourXthreeglyph_6_cols},
+    ['7'] = { .width = 3, .cols = fourXthreeglyph_7_cols},
+    ['8'] = { .width = 3, .cols = fourXthreeglyph_8_cols},
+    ['9'] = { .width = 3, .cols = fourXthreeglyph_9_cols},
+    ['0'] = { .width = 3, .cols = fourXthreeglyph_0_cols},
+    ['/'] = { .width = 1, .cols = fourXthreeglyph_colon_cols},
+};
