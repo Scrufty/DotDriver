@@ -12,7 +12,7 @@
 
 static const char *TAG = "Display-Time";
 
-TimeBuffer computeTimeBuffer()
+TimeBuffer computeTimeBuffer()  // generates display buffer for for time element
 {
     time_t now;
     struct tm timeinfo;
@@ -39,7 +39,7 @@ TimeBuffer computeTimeBuffer()
     return buffer;
 }
 
-TimeBuffer computeDateBuffer()
+TimeBuffer computeDateBuffer()      // generates display buffer for date element
 {
     time_t now;
     struct tm tinmeinfo;
@@ -63,7 +63,7 @@ TimeBuffer computeDateBuffer()
     return buffer;
 }
 
-void addTimeToFrame(PanelState *state, TimeBuffer *time)
+void addTimeToFrame(PanelState *state, TimeBuffer *time)        // incomporates time buffer into next frame
 {
     for(int col=0; col<time->timeWidth; col++){
         int x = START_COL - col;
@@ -76,7 +76,7 @@ void addTimeToFrame(PanelState *state, TimeBuffer *time)
     }
 }
 
-void addDateToFrame(PanelState *state, TimeBuffer *time)
+void addDateToFrame(PanelState *state, TimeBuffer *time)        // incomporates date buffer into next frame
 {
     for(int col=0; col<time->timeWidth; col++){
         int x = START_COL - col;
