@@ -5,6 +5,7 @@
 #include <esp_log.h>
 #include "freertos/FreeRTOS.h"
 #include <freertos/task.h>
+#include "freertos/semphr.h"
 
 #define COL_LED CONFIG_COL_LED
 #define ROW_LED CONFIG_ROW_LED
@@ -23,8 +24,12 @@
 
 static const char *TAG = "panel";
 
+volatile bool panel_needs_resync = false;
+
 // critical section to prevent interrupts/preempts during power pulse
 portMUX_TYPE dotMux = portMUX_INITIALIZER_UNLOCKED;
+
+SemaphoreHandle_t panel_mutex = NULL;
 
 void initialiseOutputs() {
     ESP_LOGI(TAG, "Initialising Outputs");
@@ -243,6 +248,20 @@ void clearDisplay() // clear both panels
     selectPanel2();
     esp_rom_delay_us(10);
     clearPanel();
+    resetPanel();   // reset counters
+    esp_rom_delay_us(1000000);
+}
+
+void setDisplay() // set both panels
+{
+    selectPanel1();
+    esp_rom_delay_us(10);
+    setPanel();
+    resetPanel();   // reset counters
+
+    selectPanel2();
+    esp_rom_delay_us(10);
+    setPanel();
     resetPanel();   // reset counters
     esp_rom_delay_us(1000000);
 }

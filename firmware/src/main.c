@@ -14,6 +14,10 @@
 #include <time.h>
 #include "displayTime.h"
 #include "global_event_group.h"
+#include "mqtt.h"
+#include "commands.h"
+#include "timer.h"
+#include "dispatcher.h"
 
 
 EventGroupHandle_t global_event_group;
@@ -51,7 +55,7 @@ static void flicker_animation() // Hardcoded animation: clear all dots on 2 disp
 
 
 /* ------------------------------------------------------------------ */
-/* app_main                                                             */
+/* app_main                                                           */
 /* ------------------------------------------------------------------ */
 void app_main(void)
 {
@@ -67,7 +71,11 @@ void app_main(void)
 
     global_event_group = xEventGroupCreate();   // assignment once declared
 
-    setenv("TZ", "CET-1CEST,M3.5.0/2,M10.5.0/3", 1);  // timezone
+    command_queue = xQueueCreate(10, sizeof(Command)); // currently set to 10 commands
+
+    panel_mutex = xSemaphoreCreateMutex();
+
+    setenv("TZ", "CET-1CEST,M3.5.0/2,M10.5.0/3", 1);  // timezone for clock
     tzset();
     
     
@@ -106,6 +114,42 @@ void app_main(void)
         NULL
     );
 
+    xTaskCreate(
+        mqtt_task,
+        "MQTT",
+        configMINIMAL_STACK_SIZE * 4, // higher for TLS handshake
+        NULL,
+        1,
+        NULL
+    );
+
+    xTaskCreate(
+        timer_task,
+        "Timer",
+        4096,
+        NULL,
+        3,
+        &timer_task_handle
+    );
+
+    xTaskCreate(
+        dispatcher_task,
+        "Dispatcher",
+        4096,
+        NULL,
+        2,              // slightly higher priority than WiFi
+        NULL            // no handle since task never notified by anything else
+    );
+
+    xTaskCreate(
+        alarm_task,
+        "Timer_Alarm",
+        16384,
+        NULL,
+        2,              // slightly higher priority than WiFi
+        &alarm_task_handle
+    );
+
     PanelState cur_state = {0};
     PanelState next_state = {0};
 
@@ -116,20 +160,31 @@ void app_main(void)
         pdTRUE,                   // wait for ALL specified bits (for when waiting for multiple bits)
         portMAX_DELAY             // block indefinitely until the bit is set
     );
+
     ESP_LOGI(TAG, "Time synced, starting clock display");
+
     while(1)
     {
         TimeBuffer timeBuffer = computeTimeBuffer();
         TimeBuffer dateBuffer = computeDateBuffer();
+
+        next_state = initialise_display_map();
         addTimeToFrame(&next_state, &timeBuffer);
         addDateToFrame(&next_state, &dateBuffer);
+        addTimerToFrame(&next_state);
+
+        xSemaphoreTake(panel_mutex, portMAX_DELAY);
+        if(panel_needs_resync){
+            cur_state = (PanelState){0};      //blank canvas
+            panel_needs_resync = false;
+        }
         flipList list = compareFrames(&cur_state, &next_state);
-
         render_panel(&list);
-        cur_state = next_state;
-        next_state = initialise_display_map();
+        xSemaphoreGive(panel_mutex);
 
-        vTaskDelay(100);
+        cur_state = next_state;
+        // vTaskDelay(100);
+        vTaskDelay(pdMS_TO_TICKS(100));
     }
 }
 

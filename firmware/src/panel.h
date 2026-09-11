@@ -4,10 +4,15 @@
 
 #include <stdint.h>
 #include <stdbool.h>
+#include "freertos/FreeRTOS.h"
+#include <freertos/task.h>
 
 
 #define PANEL_ROWS         16         
 #define PANEL_COLS         32
+
+extern SemaphoreHandle_t panel_mutex;
+extern volatile bool panel_needs_resync;        // used after render pipeline has been interrupted
 
 typedef struct {
     uint64_t dots[PANEL_ROWS];
@@ -31,5 +36,6 @@ void set_row(void);
 void clearPanel(void);
 void setPanel(void);
 void clearDisplay(void);
+void setDisplay(void);
 
 #endif
