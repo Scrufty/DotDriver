@@ -10,6 +10,9 @@
 #include<freertos/event_groups.h>
 #include <time.h>
 
+#define DAY_LOADING_BAR_START   8       // 08:00
+#define DAY_LOADING_BAR_END     22      // 22:00
+
 static const char *TAG = "Display-Time";
 
 TimeBuffer computeTimeBuffer()  // generates display buffer for for time element
@@ -63,6 +66,29 @@ TimeBuffer computeDateBuffer()      // generates display buffer for date element
     return buffer;
 }
 
+int compute_day_progress_bar()
+{
+    time_t now = time(NULL);
+    struct tm time_info;
+    localtime_r(&now, &time_info);
+
+    int current_seconds = time_info.tm_hour * 3600 + time_info.tm_min *60 + time_info.tm_sec;
+    int start_seconds = DAY_LOADING_BAR_START * 3600;
+    int end_seconds = DAY_LOADING_BAR_END * 3600;
+
+    if (current_seconds <= start_seconds){
+        return 0;
+    }
+    if (current_seconds >= end_seconds){
+        return 60;
+    }
+
+    double elapsed_seconds = (double)(current_seconds-start_seconds); 
+    double duration_seconds = (double)(end_seconds-start_seconds);
+
+    return (int)(60 * elapsed_seconds/duration_seconds); // 60 dots
+}
+
 void addTimeToFrame(PanelState *state, TimeBuffer *time)        // incomporates time buffer into next frame
 {
     for(int col=0; col<time->timeWidth; col++){
@@ -87,4 +113,14 @@ void addDateToFrame(PanelState *state, TimeBuffer *time)        // incomporates 
             }
         }
     }
+}
+
+void addDayProgressToFrame(PanelState * state, int progressDots)    // incorporates progress bar buffer into next frame
+{
+    // start = 63-(2 dot buffer)
+    int start_col=61;
+    for(int i = 0; i<progressDots; i++){
+        int col = start_col - i;
+        state->dots[7] |= (1ULL << col);
+        }
 }

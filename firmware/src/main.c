@@ -167,11 +167,13 @@ void app_main(void)
     {
         TimeBuffer timeBuffer = computeTimeBuffer();
         TimeBuffer dateBuffer = computeDateBuffer();
+        int bar = compute_day_progress_bar();
 
         next_state = initialise_display_map();
         addTimeToFrame(&next_state, &timeBuffer);
         addDateToFrame(&next_state, &dateBuffer);
         addTimerToFrame(&next_state);
+        addDayProgressToFrame(&next_state, bar);
 
         xSemaphoreTake(panel_mutex, portMAX_DELAY);
         if(panel_needs_resync){
