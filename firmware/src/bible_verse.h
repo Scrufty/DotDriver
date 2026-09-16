@@ -14,9 +14,12 @@ typedef struct {
 
 extern TaskHandle_t bible_verse_task_handle;
 
+extern SemaphoreHandle_t verse_mutex;
+
 void bible_verse_task(void *pvParameter);
 VerseBuffer computeVerseBuffer();
 void addVerseToFrame(PanelState *state, VerseBuffer *verse);
+void rollVerseText(char *verseToRoll);
 
 
 #endif

@@ -13,10 +13,17 @@
 #include <time.h>
 #include <stdbool.h>
 #include "hugeFont.h"
+#include "rollingText.h"
+#include "frames.h"
+#include "panel.h"
+#include <ctype.h>  // used for lowercase to upercase string char conversion
 
 static const char *TAG = "VERSE";
 
 TaskHandle_t bible_verse_task_handle = NULL;
+
+// static SemaphoreHandle_t verse_mutex;
+SemaphoreHandle_t verse_mutex = NULL;
 
 #define VERSE_API_URL "https://bible-api.com/data/web/random"
 #define RESPONSE_BUF_SIZE 1024
@@ -107,10 +114,12 @@ static bool fetch_verse(char *out_buf, size_t out_size)
     }
 
     // assemble string to be displayed
+    xSemaphoreTake(verse_mutex, portMAX_DELAY); // prenvents value from being read while modified
     snprintf(out_buf, out_size, "%s - %d - %d",
             book_id->valuestring,
             chapter->valueint,
             verse->valueint);
+    xSemaphoreGive(verse_mutex);
     
     ESP_LOGI(TAG, "Verse referrence: %s", out_buf);
 
@@ -122,7 +131,10 @@ static bool fetch_verse(char *out_buf, size_t out_size)
         for (int i = 0; current_verse_text[i]; i++) {
             if (current_verse_text[i] == '\n') current_verse_text[i] = ' ';
         }
-        ESP_LOGI(TAG, "Verse Contents: %s", current_verse_text);
+        for(int i=0; current_verse_text[i]!='\0'; i++) {
+            current_verse_text[i] = toupper((unsigned char)current_verse_text[i]);      // Convert to upper case
+        }
+        ESP_LOGI(TAG, "Uppercase Verse Contents: %s", current_verse_text);
     }
 
     cJSON_Delete(json);     // free up heep
@@ -131,6 +143,7 @@ static bool fetch_verse(char *out_buf, size_t out_size)
 
 VerseBuffer computeVerseBuffer(){
     VerseBuffer buffer = {0}; // emmpty buffer
+    xSemaphoreTake(verse_mutex, portMAX_DELAY); // protects from value being read while updated (if mqtt command received at midnight)
     int colCursor = 0;
     int reflen = strlen(current_verse_ref);
     for(int i=0; i<reflen; i++)  // for each character of the string
@@ -142,6 +155,7 @@ VerseBuffer computeVerseBuffer(){
         }
         colCursor += VERSE_CHAR_GAP;
     }
+    xSemaphoreGive(verse_mutex);
     buffer.verseWidth = colCursor;
     return buffer;
 }
@@ -159,6 +173,33 @@ void addVerseToFrame(PanelState *state, VerseBuffer *verse){
     }
 }
 
+void rollVerseText(char *verseToRoll){
+    // Setup
+    MessageBuffer buffer = computeBoldBuffer(verseToRoll);
+    PanelState localState = initialise_display_map();
+
+    const TickType_t period = pdMS_TO_TICKS(200);
+    TickType_t lastWakeTime = xTaskGetTickCount();
+
+    int offset = -2*PANEL_COLS;  // initial offset
+
+    static flipList list;
+
+    while (offset <= buffer.messageWidth)  // 2 panels worth before, 2 panels worth after
+    {
+        PanelState nextState = extractWindow(&buffer, offset);   // compute frame
+
+        list = compareFrames(&localState, &nextState);
+        render_panel(&list);
+
+        localState = nextState;   // refresh state
+
+        offset++;
+        vTaskDelayUntil(&lastWakeTime, period);
+    }
+    
+}
+
 void bible_verse_task(void *pvParameter){
 
     // wait for WiFi before making http request
@@ -174,13 +215,15 @@ void bible_verse_task(void *pvParameter){
     {
         // check for a "show verse" notification — but don't block forever waiting for one
         // timeout of 0 means: check right now, continue immediately if nothing pending
-        uint32_t notified = ulTaskNotifyTake(pdTRUE, 0);
+        uint32_t notified = ulTaskNotifyTake(pdTRUE, pdMS_TO_TICKS(30000));
 
         if (notified)
         {
             // CMD_SHOW_VERSE was triggered — scroll full verse text on whole panel
             xSemaphoreTake(panel_mutex, portMAX_DELAY);   // pause render loop
-            // TODO: scroll current_verse_text using full-panel rolling text pipeline
+            clearDisplay();
+            rollVerseText(current_verse_text); // roll verse contents using full-panel rolling text pipeline
+            panel_needs_resync = true;
             xSemaphoreGive(panel_mutex);
         }
 
@@ -193,6 +236,5 @@ void bible_verse_task(void *pvParameter){
             fetch_verse(current_verse_ref, sizeof(current_verse_ref));
         }
 
-        vTaskDelay(pdMS_TO_TICKS(30000));   // check every 30 seconds
     }
 }

@@ -74,12 +74,15 @@ void app_main(void)
 
     command_queue = xQueueCreate(10, sizeof(Command)); // currently set to 10 commands
 
-    panel_mutex = xSemaphoreCreateMutex();
+    
 
     setenv("TZ", "CET-1CEST,M3.5.0/2,M10.5.0/3", 1);  // timezone for clock
     tzset();
     
-    
+    panel_mutex = xSemaphoreCreateMutex();
+    verse_mutex = xSemaphoreCreateMutex();
+
+
     // CLEAR DOTS
     clearDisplay();
 
@@ -154,7 +157,7 @@ void app_main(void)
     xTaskCreate(
         bible_verse_task,
         "Bible_Verse",
-        8192,       // might need more
+        32768,       // was 16384, might need more
         NULL,
         2,
         &bible_verse_task_handle
@@ -197,7 +200,6 @@ void app_main(void)
         xSemaphoreGive(panel_mutex);
 
         cur_state = next_state;
-        // vTaskDelay(100);
         vTaskDelay(pdMS_TO_TICKS(100));
     }
 }

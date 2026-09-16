@@ -416,7 +416,7 @@ static const uint16_t BOLDglyph_B_cols[] = {
     0b1100000110000011,
     0b1100000110000011,
     0b1100000110000011,
-    0b0110011100000111,
+    0b0110011110000111,
     0b0011110011111110,
     0b0000000001111100
 };
@@ -625,7 +625,7 @@ static const uint16_t BOLDglyph_R_cols[] = {
     0b1111111111111111,
     0b1100000011000000,
     0b1100000011000000,
-    0b1100000101110000,
+    0b1100000011110000,
     0b0110000110011100,
     0b0111111100000111,
     0b0011111000000001
@@ -768,6 +768,12 @@ static const uint16_t BOLDglyph_AND_cols[] = {
 
 };
 
+// Verse SPACE (for when " " character appears in string to roll)
+static const uint16_t BOLDglyph_verseSPACE_cols[] = {
+    0b0000000000000000,
+    0b0000000000000000
+};
+
 // Bold Font lookup table
 const Glyph BoldFont[] = {
     ['A'] = { .width = 9, .cols = BOLDglyph_A_cols},
@@ -798,7 +804,8 @@ const Glyph BoldFont[] = {
     ['Z'] = { .width = 9, .cols = BOLDglyph_Z_cols},
     ['_'] = { .width = 2, .cols = BOLDglyph_SPACE_cols},
     ['!'] = { .width = 2, .cols = BOLDglyph_EXP_cols},
-    ['&'] = { .width = 11, .cols = BOLDglyph_AND_cols}
+    ['&'] = { .width = 11, .cols = BOLDglyph_AND_cols},
+    [' '] = { .width = 2, .cols = BOLDglyph_verseSPACE_cols},
 };
 
 // 5x3 Font
@@ -903,7 +910,7 @@ static const uint8_t fiveXthreeglyph_C_cols[] = {
 static const uint8_t fiveXthreeglyph_D_cols[] = {
     0b00011111,
     0b00010001,
-    0b0000111
+    0b00001110
 };
 
 // E
@@ -974,8 +981,8 @@ static const uint8_t fiveXthreeglyph_M_cols[] = {
 // N
 static const uint8_t fiveXthreeglyph_N_cols[] = {
     0b00011111,
+    0b00000010,
     0b00000100,
-    0b00001000,
     0b00011111
 };
 
@@ -1071,6 +1078,23 @@ static const uint8_t fiveXthreeglyph_dash_cols[] = {
     0b00000100
 };
 
+// .
+static const uint8_t fiveXthreeglyph_dot_cols[] = {
+    0b00000001
+};
+
+// "
+static const uint8_t fiveXthreeglyph_quote_cols[] = {
+    0b11000000,
+    0b00000000,
+    0b11000000
+};
+
+// ,
+static const uint8_t fiveXthreeglyph_coma_cols[] = {
+    0b00000010,
+    0b00000001
+};
 
 // 5x3 Font lookup table
 const MiniGlyph fiveXthreeFont[] = {
@@ -1112,6 +1136,9 @@ const MiniGlyph fiveXthreeFont[] = {
     ['Y'] = { .width = 3, .cols = fiveXthreeglyph_Y_cols},
     ['Z'] = { .width = 3, .cols = fiveXthreeglyph_Z_cols},
     ['-'] = { .width = 2, .cols = fiveXthreeglyph_dash_cols},
+    ['.'] = { .width = 1, .cols = fiveXthreeglyph_dot_cols},
+    ['"'] = { .width = 3, .cols = fiveXthreeglyph_quote_cols},
+    [','] = { .width = 2, .cols = fiveXthreeglyph_coma_cols}
 };
 
 // 4x3 Font
