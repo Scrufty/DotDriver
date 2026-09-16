@@ -6,11 +6,11 @@
 #include "panel.h"
 #include "frames.h"
 #include "rollingText.h"
-#include<string.h>
+#include <string.h>
 #include "wifi.h"
 #include "ntp.h"
 #include <nvs_flash.h>
-#include<freertos/event_groups.h>
+#include <freertos/event_groups.h>
 #include <time.h>
 #include "displayTime.h"
 #include "global_event_group.h"
@@ -18,6 +18,7 @@
 #include "commands.h"
 #include "timer.h"
 #include "dispatcher.h"
+#include "bible_verse.h"
 
 
 EventGroupHandle_t global_event_group;
@@ -150,6 +151,15 @@ void app_main(void)
         &alarm_task_handle
     );
 
+    xTaskCreate(
+        bible_verse_task,
+        "Bible_Verse",
+        8192,       // might need more
+        NULL,
+        2,
+        &bible_verse_task_handle
+    );
+
     PanelState cur_state = {0};
     PanelState next_state = {0};
 
@@ -167,6 +177,7 @@ void app_main(void)
     {
         TimeBuffer timeBuffer = computeTimeBuffer();
         TimeBuffer dateBuffer = computeDateBuffer();
+        VerseBuffer verseBuffer = computeVerseBuffer();
         int bar = compute_day_progress_bar();
 
         next_state = initialise_display_map();
@@ -174,6 +185,7 @@ void app_main(void)
         addDateToFrame(&next_state, &dateBuffer);
         addTimerToFrame(&next_state);
         addDayProgressToFrame(&next_state, bar);
+        addVerseToFrame(&next_state, &verseBuffer);
 
         xSemaphoreTake(panel_mutex, portMAX_DELAY);
         if(panel_needs_resync){

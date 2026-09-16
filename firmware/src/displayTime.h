@@ -20,7 +20,7 @@ typedef struct {
 TimeBuffer computeTimeBuffer();  // generates frame region for time
 TimeBuffer computeDateBuffer();  // same for date
 void addTimeToFrame(PanelState *state, TimeBuffer *time); // adds time info to full sized frame
-void addDateToFrame(PanelState *state, TimeBuffer *time); // same for date
+void addDateToFrame(PanelState *state, TimeBuffer *date); // same for date
 int compute_day_progress_bar(); // returns number of dots
 void addDayProgressToFrame(PanelState *state, int progressDots);   // adds progress bar to full frame
 

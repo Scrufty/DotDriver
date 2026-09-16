@@ -102,11 +102,11 @@ void addTimeToFrame(PanelState *state, TimeBuffer *time)        // incomporates 
     }
 }
 
-void addDateToFrame(PanelState *state, TimeBuffer *time)        // incomporates date buffer into next frame
+void addDateToFrame(PanelState *state, TimeBuffer *date)        // incomporates date buffer into next frame
 {
-    for(int col=0; col<time->timeWidth; col++){
+    for(int col=0; col<date->timeWidth; col++){
         int x = START_COL - col;
-        uint8_t colBits = time->cols[col];
+        uint8_t colBits = date->cols[col];
         for(int y = 0; y<4; y++){   // 4 rows tall (date font height)
             if((colBits >> y) & 1){
                 state->dots[DATE_START_ROW - y] |= (1ULL << x);

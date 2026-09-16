@@ -878,6 +878,200 @@ static const uint8_t fiveXthreeglyph_colon_cols[] = {
     0b00001010
 };
 
+// A
+static const uint8_t fiveXthreeglyph_A_cols[] = {
+    0b00011110,
+    0b00000101,
+    0b00011110
+};
+
+// B
+static const uint8_t fiveXthreeglyph_B_cols[] = {
+    0b00011111,
+    0b00010101,
+    0b00001010
+};
+
+// C
+static const uint8_t fiveXthreeglyph_C_cols[] = {
+    0b00001110,
+    0b00010001,
+    0b00010001
+};
+
+// D
+static const uint8_t fiveXthreeglyph_D_cols[] = {
+    0b00011111,
+    0b00010001,
+    0b0000111
+};
+
+// E
+static const uint8_t fiveXthreeglyph_E_cols[] = {
+    0b00011111,
+    0b00010101,
+    0b00010001
+};
+
+// F
+static const uint8_t fiveXthreeglyph_F_cols[] = {
+    0b00011111,
+    0b00000101,
+    0b00000001
+};
+
+// G
+static const uint8_t fiveXthreeglyph_G_cols[] = {
+    0b00001110,
+    0b00010001,
+    0b00011010
+};
+
+// H
+static const uint8_t fiveXthreeglyph_H_cols[] = {
+    0b00011111,
+    0b00000100,
+    0b00011111
+};
+
+// I
+static const uint8_t fiveXthreeglyph_I_cols[] = {
+    0b00010001,
+    0b00011111,
+    0b00010001
+};
+
+// J
+static const uint8_t fiveXthreeglyph_J_cols[] = {
+    0b00010001,
+    0b00011111,
+    0b00000001
+};
+
+// K
+static const uint8_t fiveXthreeglyph_K_cols[] = {
+    0b00011111,
+    0b00000110,
+    0b00011001
+};
+
+// L
+static const uint8_t fiveXthreeglyph_L_cols[] = {
+    0b00011111,
+    0b00010000,
+    0b00010000
+};
+
+// M
+static const uint8_t fiveXthreeglyph_M_cols[] = {
+    0b00011111,
+    0b00000010,
+    0b00000100,
+    0b00000010,
+    0b00011111
+};
+
+// N
+static const uint8_t fiveXthreeglyph_N_cols[] = {
+    0b00011111,
+    0b00000100,
+    0b00001000,
+    0b00011111
+};
+
+// O
+static const uint8_t fiveXthreeglyph_O_cols[] = {
+    0b00001110,
+    0b00010001,
+    0b00001110
+};
+
+// P
+static const uint8_t fiveXthreeglyph_P_cols[] = {
+    0b00011111,
+    0b00000101,
+    0b00000010
+};
+
+// Q
+static const uint8_t fiveXthreeglyph_Q_cols[] = {
+    0b00001110,
+    0b00010101,
+    0b00011110
+};
+
+// R
+static const uint8_t fiveXthreeglyph_R_cols[] = {    
+    0b00011111,
+    0b00000101,
+    0b00011010
+};
+
+// S
+static const uint8_t fiveXthreeglyph_S_cols[] = {
+    0b00010111,
+    0b00010101,
+    0b00011101
+};
+
+// T
+static const uint8_t fiveXthreeglyph_T_cols[] = {
+    0b00000001,
+    0b00011111,
+    0b00000001
+};
+
+// U
+static const uint8_t fiveXthreeglyph_U_cols[] = {
+    0b00011111,
+    0b00010000,
+    0b00011111
+};
+
+// V
+static const uint8_t fiveXthreeglyph_V_cols[] = {
+    0b00001111,
+    0b00010000,
+    0b00001111
+};
+
+// W
+static const uint8_t fiveXthreeglyph_W_cols[] = {
+    0b00001111,
+    0b00001100,
+    0b00000110,
+    0b000011100,
+    0b00001111
+};
+
+// X
+static const uint8_t fiveXthreeglyph_X_cols[] = {
+    0b00011011,
+    0b00000100,
+    0b00011011
+};
+
+// Y
+static const uint8_t fiveXthreeglyph_Y_cols[] = {
+    0b00000011,
+    0b00011100,
+    0b00000011
+};
+
+// Z
+static const uint8_t fiveXthreeglyph_Z_cols[] = {
+    0b00011001,
+    0b00010101,
+    0b00010011
+};
+
+// -
+static const uint8_t fiveXthreeglyph_dash_cols[] = {
+    0b00000100,
+    0b00000100
+};
+
+
 // 5x3 Font lookup table
 const MiniGlyph fiveXthreeFont[] = {
     ['1'] = { .width = 3, .cols = fiveXthreeglyph_1_cols},
@@ -891,6 +1085,33 @@ const MiniGlyph fiveXthreeFont[] = {
     ['9'] = { .width = 3, .cols = fiveXthreeglyph_9_cols},
     ['0'] = { .width = 3, .cols = fiveXthreeglyph_0_cols},
     [':'] = { .width = 1, .cols = fiveXthreeglyph_colon_cols},
+    ['A'] = { .width = 3, .cols = fiveXthreeglyph_A_cols},
+    ['B'] = { .width = 3, .cols = fiveXthreeglyph_B_cols},
+    ['C'] = { .width = 3, .cols = fiveXthreeglyph_C_cols},
+    ['D'] = { .width = 3, .cols = fiveXthreeglyph_D_cols},
+    ['E'] = { .width = 3, .cols = fiveXthreeglyph_E_cols},
+    ['F'] = { .width = 3, .cols = fiveXthreeglyph_F_cols},
+    ['G'] = { .width = 3, .cols = fiveXthreeglyph_G_cols},
+    ['H'] = { .width = 3, .cols = fiveXthreeglyph_H_cols},
+    ['I'] = { .width = 3, .cols = fiveXthreeglyph_I_cols},
+    ['J'] = { .width = 3, .cols = fiveXthreeglyph_J_cols},
+    ['K'] = { .width = 3, .cols = fiveXthreeglyph_K_cols},
+    ['L'] = { .width = 3, .cols = fiveXthreeglyph_L_cols},
+    ['M'] = { .width = 5, .cols = fiveXthreeglyph_M_cols},
+    ['N'] = { .width = 4, .cols = fiveXthreeglyph_N_cols},
+    ['O'] = { .width = 3, .cols = fiveXthreeglyph_O_cols},
+    ['P'] = { .width = 3, .cols = fiveXthreeglyph_P_cols},
+    ['Q'] = { .width = 3, .cols = fiveXthreeglyph_Q_cols},
+    ['R'] = { .width = 3, .cols = fiveXthreeglyph_R_cols},
+    ['S'] = { .width = 3, .cols = fiveXthreeglyph_S_cols},
+    ['T'] = { .width = 3, .cols = fiveXthreeglyph_T_cols},
+    ['U'] = { .width = 3, .cols = fiveXthreeglyph_U_cols},
+    ['V'] = { .width = 3, .cols = fiveXthreeglyph_V_cols},
+    ['W'] = { .width = 5, .cols = fiveXthreeglyph_W_cols},
+    ['X'] = { .width = 3, .cols = fiveXthreeglyph_X_cols},
+    ['Y'] = { .width = 3, .cols = fiveXthreeglyph_Y_cols},
+    ['Z'] = { .width = 3, .cols = fiveXthreeglyph_Z_cols},
+    ['-'] = { .width = 2, .cols = fiveXthreeglyph_dash_cols},
 };
 
 // 4x3 Font
@@ -970,7 +1191,8 @@ static const uint8_t fourXthreeglyph_colon_cols[] = {
     0b00000000
 };
 
-// 5x3 Font lookup table
+
+// 4x3 Font lookup table
 const MiniGlyph fourXthreeFont[] = {
     ['1'] = { .width = 3, .cols = fourXthreeglyph_1_cols},
     ['2'] = { .width = 3, .cols = fourXthreeglyph_2_cols},

@@ -3,7 +3,7 @@
 
 #include "panel.h"
 #include "freertos/FreeRTOS.h"
-#include "freeRTOS/task.h"
+#include "freertos/task.h"
 #include "stdbool.h"
 
 extern TaskHandle_t timer_task_handle;      // so that dispatcher knows who to notify

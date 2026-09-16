@@ -13,7 +13,7 @@
 
 static const char *TAG = "mqtt";
 
-#define MQTT_BROKER_URI "PLACEHOLDER"
+#define MQTT_BROKER_URI "PLACEHOLDER"  // port 8883
 #define MQTT_USERNAME   "PLACEHOLDER"
 #define MQTT_PASSWORD   "PLACEHOLDER"
 

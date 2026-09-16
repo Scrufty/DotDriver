@@ -5,7 +5,7 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "freertos/queue.h"
-#include "timer.h"
+#include "bible_verse.h"
 
 static const char *TAG = "dispatcher";
 
@@ -35,7 +35,7 @@ void dispatcher_task(void *pvParameter)
 
         case CMD_SHOW_VERSE:
             ESP_LOGI(TAG, "CMD_SHOW_VERSE received");
-            // TODO: notify verse_task will need to fetch and display the verse of the day via HTTP, then feed into rolling text pipeline
+            xTaskNotifyGive(bible_verse_task_handle);
             break;
         case CMD_TIMER_EXPIRED:
             ESP_LOGI(TAG, "Timer finished, running alarm animation");
