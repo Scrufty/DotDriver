@@ -6,6 +6,7 @@
 #include "freertos/task.h"
 #include "freertos/queue.h"
 #include "bible_verse.h"
+#include "washing.h"
 
 static const char *TAG = "dispatcher";
 
@@ -30,7 +31,7 @@ void dispatcher_task(void *pvParameter)
             break;
         case CMD_WATCH_MACHINE:
             ESP_LOGI(TAG, "CMD_WATCH_MACHINE received: machine %d", cmd.data.watch_machine.machine_id);
-            // TODO: add machine_id to the shared watched_machines array, washing_task will need to poll the API and check this list
+            washing_set_watched_machine(cmd.data.watch_machine.machine_id);
             break;
 
         case CMD_SHOW_VERSE:

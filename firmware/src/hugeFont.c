@@ -1096,6 +1096,7 @@ static const uint8_t fiveXthreeglyph_coma_cols[] = {
     0b00000001
 };
 
+
 // 5x3 Font lookup table
 const MiniGlyph fiveXthreeFont[] = {
     ['1'] = { .width = 3, .cols = fiveXthreeglyph_1_cols},
@@ -1218,6 +1219,131 @@ static const uint8_t fourXthreeglyph_colon_cols[] = {
     0b00000000
 };
 
+// washing rest pattern (callsign R)
+static const uint8_t fourXthreeglyph_washing_rest_cols[] = {
+    0b00000011,
+    0b00001001,
+    0b00001100,
+    0b00000110,
+    0b00000011,
+    0b00001001,
+    0b00001100,
+    0b00000110,
+    0b00000011,
+    0b00001001,
+    0b00001100,
+    0b00000110,
+    0b00000011,
+    0b00001001,
+    0b00001100,
+    0b00000110,
+    0b00000011,
+    0b00001001,
+    0b00001100,
+    0b00000110,
+    0b00000011,
+    0b00001001,
+    0b00001100,
+    0b00000110,
+    0b00000011,
+    0b00001001,
+    0b00001100,
+    0b00000110,
+    0b00000011,
+    0b00001001,
+    0b00001100,
+    0b00000110,
+    0b00000011,
+    0b00001001,
+    0b00001100,
+    0b00000110,
+    0b00000011,
+    0b00001001,
+    0b00001100,
+    0b00000110,
+    0b00000011,
+    0b00001001
+};
+
+// Washing in progress pattern (callsign W)
+static const uint8_t fourXthreeglyph_washing_cols[] = {
+    0b00000011,
+    0b00001100,
+    0b00000010,
+    0b00001100,
+    0b00000011,
+    0b00000000,
+    0b00001110,
+    0b00000101,
+    0b00001110,
+    0b00000000,
+    0b00001010,
+    0b00001101,
+    0b00000101,
+    0b00000000,
+    0b00001111,
+    0b00000010,
+    0b00001111,
+    0b00000000,
+    0b00001101,
+    0b00000000,
+    0b00001111,
+    0b00000010,
+    0b00000100,
+    0b00001111,
+    0b00000000,
+    0b00000110,
+    0b00001001,
+    0b00001101,
+};
+
+// Washing done pattern (callsign D)
+static const uint8_t fourXthreeglyph_washing_done_cols[] = {
+    0b00001110,
+    0b00001010,
+    0b00001110,
+    0b00000000,
+    0b00001110,
+    0b00001010,
+    0b00001110,
+    0b00000000,
+    0b00001111,
+    0b00000010,
+    0b00000100,
+    0b00001111,
+    0b00000000,
+    0b00001111,
+    0b00001011,
+    0b00001001
+};
+
+// washing machine not running (callsign N)
+static const uint8_t fourXthreeglyph_washing_not_running_cols[] = {
+    0b00001111,
+    0b00001000,
+    0b00001111,
+    0b00000000,
+    0b00001111,
+    0b00000010,
+    0b00000100,
+    0b00001111,
+    0b00000000,
+    0b00001111,
+    0b00001000,
+    0b00001111,
+    0b00000000,
+    0b00001010,
+    0b00001101,
+    0b00000101,
+    0b00000000,
+    0b00001111,
+    0b00001011,
+    0b00001001,
+    0b00000000,
+    0b00001110,
+    0b00001010,
+    0b00001111
+};
 
 // 4x3 Font lookup table
 const MiniGlyph fourXthreeFont[] = {
@@ -1232,4 +1358,8 @@ const MiniGlyph fourXthreeFont[] = {
     ['9'] = { .width = 3, .cols = fourXthreeglyph_9_cols},
     ['0'] = { .width = 3, .cols = fourXthreeglyph_0_cols},
     ['/'] = { .width = 1, .cols = fourXthreeglyph_colon_cols},
+    ['R'] = { .width = 42, .cols = fourXthreeglyph_washing_rest_cols},
+    ['W'] = { .width = 28, .cols = fourXthreeglyph_washing_cols},
+    ['D'] = { .width = 16, .cols = fourXthreeglyph_washing_done_cols},
+    ['N'] = { .width = 24, .cols = fourXthreeglyph_washing_not_running_cols}
 };

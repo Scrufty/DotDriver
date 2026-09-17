@@ -15,7 +15,6 @@
 #include "hugeFont.h"
 #include "rollingText.h"
 #include "frames.h"
-#include "panel.h"
 #include <ctype.h>  // used for lowercase to upercase string char conversion
 
 static const char *TAG = "VERSE";
@@ -178,7 +177,7 @@ void rollVerseText(char *verseToRoll){
     MessageBuffer buffer = computeBoldBuffer(verseToRoll);
     PanelState localState = initialise_display_map();
 
-    const TickType_t period = pdMS_TO_TICKS(200);
+    const TickType_t period = pdMS_TO_TICKS(120);
     TickType_t lastWakeTime = xTaskGetTickCount();
 
     int offset = -2*PANEL_COLS;  // initial offset

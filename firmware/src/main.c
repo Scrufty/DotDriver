@@ -19,6 +19,7 @@
 #include "timer.h"
 #include "dispatcher.h"
 #include "bible_verse.h"
+#include "washing.h"
 
 
 EventGroupHandle_t global_event_group;
@@ -81,6 +82,7 @@ void app_main(void)
     
     panel_mutex = xSemaphoreCreateMutex();
     verse_mutex = xSemaphoreCreateMutex();
+    washing_mutex = xSemaphoreCreateMutex();
 
 
     // CLEAR DOTS
@@ -163,6 +165,15 @@ void app_main(void)
         &bible_verse_task_handle
     );
 
+        xTaskCreate(
+        washing_task,
+        "Washing",
+        4096,
+        NULL,
+        2,
+        &washing_task_handle
+    );
+
     PanelState cur_state = {0};
     PanelState next_state = {0};
 
@@ -181,6 +192,7 @@ void app_main(void)
         TimeBuffer timeBuffer = computeTimeBuffer();
         TimeBuffer dateBuffer = computeDateBuffer();
         VerseBuffer verseBuffer = computeVerseBuffer();
+        WashingBuffer washingBuffer = computeWashingBuffer();
         int bar = compute_day_progress_bar();
 
         next_state = initialise_display_map();
@@ -189,6 +201,7 @@ void app_main(void)
         addTimerToFrame(&next_state);
         addDayProgressToFrame(&next_state, bar);
         addVerseToFrame(&next_state, &verseBuffer);
+        addWashingToFrame(&next_state, &washingBuffer);
 
         xSemaphoreTake(panel_mutex, portMAX_DELAY);
         if(panel_needs_resync){
